@@ -378,7 +378,9 @@ void ChatHistory::loadHistoryIntoSessionChatLog(ChatLogIdx start) const
     // We know that both history and us have a start index of 0 so the type
     // conversion should be safe
     assert(getFirstIdx() == ChatLogIdx(0));
+    qDebug() << "loadHistoryIntoSessionChatLog:getMessagesForChat:START";
     auto messages = history->getMessagesForChat(chat.getPersistentId(), start.get(), end.get());
+    qDebug() << "loadHistoryIntoSessionChatLog:getMessagesForChat:DONE";
 
     assert(messages.size() == static_cast<int>(end.get() - start.get()));
     ChatLogIdx nextIdx = start;
@@ -400,6 +402,9 @@ void ChatHistory::loadHistoryIntoSessionChatLog(ChatLogIdx start) const
 
             auto isAction = handleActionPrefix(messageContent);
 
+            qDebug() << "loadHistoryIntoSessionChatLog:ngcMsgid=" << message.ngcMsgid.left(5) << "messageContent:" << messageContent;
+            qDebug() << "loadHistoryIntoSessionChatLog:dispName=" << message.dispName << "messageContent:" << messageContent;
+
             // It's okay to skip the message processor here. The processor is
             // meant to convert between boundaries of our internal
             // representation. We already had to go through the processor before
@@ -418,6 +423,7 @@ void ChatHistory::loadHistoryIntoSessionChatLog(ChatLogIdx start) const
             auto chatLogMessage = ChatLogMessage{message.state, processedMessage};
             switch (message.state) {
                 case MessageState::complete:
+                    chatLogMessage.message.id_or_hash = message.ngcMsgid;
                     sessionChatLog.insertCompleteMessageAtIdx(currentIdx, message.sender, message.dispName,
                                                               chatLogMessage);
                     break;

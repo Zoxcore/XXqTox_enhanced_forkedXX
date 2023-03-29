@@ -20,6 +20,7 @@
 #pragma once
 
 #include <QDateTime>
+#include <QDebug>
 #include <QHash>
 #include <QPointer>
 #include <QVector>
@@ -140,8 +141,8 @@ class History : public QObject, public std::enable_shared_from_this<History>
 public:
     struct HistMessage
     {
-        HistMessage(RowId id_, MessageState state_, ExtensionSet extensionSet_, QDateTime timestamp_, std::unique_ptr<ChatId> chat_, QString dispName_,
-                    ToxPk sender_, QString message)
+        HistMessage(RowId id_, MessageState state_, ExtensionSet extensionSet_, QDateTime timestamp_, std::unique_ptr<ChatId> chat_,
+                    QString dispName_, ToxPk sender_, QString message, QString ngc_msgid_)
             : chat{std::move(chat_)}
             , sender{sender_}
             , dispName{dispName_}
@@ -150,7 +151,11 @@ public:
             , state{state_}
             , extensionSet(extensionSet_)
             , content(std::move(message))
-        {}
+            , ngcMsgid{ngc_msgid_}
+        {
+            // this->ngcMsgid = ngc_msgid_;
+            // qDebug() << "ngcMsgid:" << ngcMsgid.left(5) << "ngc_msgid_:" << ngc_msgid_.left(5) << "dispName:" << dispName;
+        }
 
         HistMessage(RowId id_, MessageState state_, QDateTime timestamp_, std::unique_ptr<ChatId> chat_, QString dispName_,
                     ToxPk sender_, ToxFile file)
@@ -180,6 +185,7 @@ public:
             , state{other.state}
             , extensionSet{other.extensionSet}
             , content{other.content}
+            , ngcMsgid{other.ngcMsgid}
         {}
 
         HistMessage& operator=(const HistMessage& other)
@@ -192,6 +198,7 @@ public:
             state = other.state;
             extensionSet = other.extensionSet;
             content = other.content;
+            ngcMsgid = other.ngcMsgid;
             return *this;
         }
 
@@ -203,6 +210,7 @@ public:
         MessageState state;
         ExtensionSet extensionSet;
         HistMessageContent content;
+        QString ngcMsgid;
     };
 
     struct DateIdx

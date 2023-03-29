@@ -2084,9 +2084,9 @@ void Widget::onGroupMessageReceivedImage(int groupnumber, int peernumber, const 
     std::ignore = hasIdType;
 
     QByteArray image_data_bytes = QByteArray(reinterpret_cast<const char*>(image_data), length);
-    qDebug() << "onGroupMessageReceivedImage:image_data_bytes:"
-        << QString::fromUtf8(image_data_bytes.toHex()).toUpper().rightJustified((length * 2), '0')
-            << "len:" << length;
+    // qDebug() << "onGroupMessageReceivedImage:image_data_bytes:"
+    //    << QString::fromUtf8(image_data_bytes.toHex()).toUpper().rightJustified((length * 2), '0')
+    //        << "len:" << length;
 
     QPixmap mpixmap;
     bool result = mpixmap.loadFromData(image_data_bytes,"WEBP");
@@ -2095,10 +2095,11 @@ void Widget::onGroupMessageReceivedImage(int groupnumber, int peernumber, const 
     if (result)
     {
         // HINT: WEBP image could be loaded OK, so save hex data into DB
-        QString message = QString::fromUtf8(image_data_bytes.toHex()).toUpper().rightJustified((length * 2), '0');
+        QString message = QString::fromUtf8(image_data_bytes.toHex()).toUpper().rightJustified((length * 2), '0') + QString(":") + QString("___");
         groupMessageDispatchers[groupId]->onMessageReceived(author, isAction, message, hasIdType);
     }
 }
+
 void Widget::onGroupPeerlistChanged(uint32_t groupnumber)
 {
     const GroupId& groupId = groupList->id2Key(groupnumber);

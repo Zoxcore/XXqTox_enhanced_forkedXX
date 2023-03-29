@@ -27,6 +27,7 @@ class Image : public ChatLineContent
 {
 public:
     Image(QSize size, const QString& filename);
+    Image(QSize Size, const QPixmap& pixmap);
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,

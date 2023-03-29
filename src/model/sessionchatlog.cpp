@@ -340,6 +340,9 @@ void SessionChatLog::insertCompleteMessageAtIdx(ChatLogIdx idx, const ToxPk& sen
 {
     auto item = ChatLogItem(sender, senderName, message);
 
+    // ****************
+    qDebug() << QString("insertCompleteMessageAtIdx:id_or_hash:") << message.message.id_or_hash.left(5);
+
     assert(message.state == MessageState::complete);
 
     items.emplace(idx, std::move(item));
@@ -396,11 +399,15 @@ void SessionChatLog::onMessageReceived(const ToxPk& sender, const Message& messa
     message3.timestamp = message.timestamp;
     message3.extensionSet = message.extensionSet;
     message3.metadata = message.metadata;
+    message3.id_or_hash = message.id_or_hash;
+
+    qDebug() << "hasIdType:" << hasIdType << "message.id_or_hash:" << message.id_or_hash.left(5);
 
     if (hasIdType == static_cast<int>(Widget::MessageHasIdType::NGC_MSG_ID)) {
         QString hexstr = message.content.section(':', 0, 0);
         std::ignore = hexstr;
         message_real = message.content.section(':', 1);
+        message3.id_or_hash = hexstr;
     } else if (hasIdType == static_cast<int>(Widget::MessageHasIdType::MSGV3_ID)) {
         QString hexstr = message.content.section(':', 0, 0);
         std::ignore = hexstr;
@@ -414,6 +421,9 @@ void SessionChatLog::onMessageReceived(const ToxPk& sender, const Message& messa
     }
 
     message3.content = message_real;
+
+    qDebug() << "hasIdType:" << hasIdType << "message.id_or_hash:" << message3.id_or_hash.left(5) << "content:" << message3.content;
+
 
     ChatLogMessage chatLogMessage;
     chatLogMessage.state = MessageState::complete;

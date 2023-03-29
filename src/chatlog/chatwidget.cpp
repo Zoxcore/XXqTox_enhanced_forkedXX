@@ -22,6 +22,7 @@
 #include "chatlinecontentproxy.h"
 #include "chatmessage.h"
 #include "content/filetransferwidget.h"
+#include "content/image.h"
 #include "content/text.h"
 #include "src/widget/translator.h"
 #include "src/widget/style.h"
@@ -34,8 +35,11 @@
 #include <QClipboard>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QPixmap>
+#include <QImage>
 #include <QScrollBar>
 #include <QShortcut>
+#include <Qt>
 #include <QTimer>
 
 #include <algorithm>
@@ -105,15 +109,45 @@ void renderMessageRaw(const QString& pubkey, const QString& displayName, bool is
     // ChatLine a QObject which I didn't think was worth it.
     auto chatMessage = static_cast<ChatMessage*>(chatLine.get());
 
+    qDebug() << QString("renderMessageRaw:id_or_hash:")
+        << chatLogMessage.message.id_or_hash.left(5)
+        << "content:" << chatLogMessage.message.content;
+
     if (chatMessage) {
+        qDebug() << QString("renderMessageRaw:chatMessage:true");
         if (chatLogMessage.state == MessageState::complete) {
+            qDebug() << QString("renderMessageRaw:chatMessage:true:1");
             chatMessage->markAsDelivered(chatLogMessage.message.timestamp);
         } else if (chatLogMessage.state == MessageState::broken) {
+            qDebug() << QString("renderMessageRaw:chatMessage:true:2");
             chatMessage->markAsBroken();
         }
     } else {
+        qDebug() << QString("renderMessageRaw:chatMessage:FALSE");
         chatLine = createMessage(pubkey, displayName, isSelf, colorizeNames, chatLogMessage,
             documentCache, smileyPack, settings, style);
+
+        if ((chatLogMessage.message.id_or_hash.size() > 32) && (chatLogMessage.message.content == "___"))
+        {
+            QByteArray image_data_bytes = QByteArray::fromHex(chatLogMessage.message.id_or_hash.toLatin1());
+            QPixmap pixmap_;
+            bool result = pixmap_.loadFromData(image_data_bytes,"WEBP");
+            qDebug() << "renderMessageRaw:loadFromData:res=" << result;
+
+            //chatLine->replaceContent(1, new Image(QSize(120, 120), pixmap_),
+            //                    ColumnFormat(120.0, ColumnFormat::VariableSize, ColumnFormat::Center)
+            //                    );
+            if (result)
+            {
+                chatLine->replaceContent(2, new Image(QSize(100, 100),
+                    pixmap_.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+                chatLine->moveBy(300);
+            }
+            else
+            {
+                // TODO: write error text into text field
+            }
+        }
     }
 }
 
@@ -1424,7 +1458,10 @@ void ChatWidget::renderItem(const ChatLogItem& item, bool hideName, bool coloriz
     switch (item.getContentType()) {
     case ChatLogItem::ContentType::message: {
         const auto& chatLogMessage = item.getContentAsMessage();
-
+        // HINT: ***********render message**********
+        // HINT: ***********render message**********
+        // HINT: ***********render message**********
+        qDebug() << QString("renderItem:id_or_hash") << chatLogMessage.message.id_or_hash.left(5);
         renderMessageRaw(sender.toString(), item.getDisplayName(), isSelf, colorizeNames_, chatLogMessage,
             chatMessage, documentCache, smileyPack, settings, style);
 

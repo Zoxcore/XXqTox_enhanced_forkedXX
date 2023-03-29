@@ -94,12 +94,13 @@ public:
     static bool lessThanBSRectTop(const ChatLine::Ptr& lhs, const qreal& rhs);
     static bool lessThanBSRectBottom(const ChatLine::Ptr& lhs, const qreal& rhs);
 
+    void addColumn(ChatLineContent* item, ColumnFormat fmt);
+
 protected:
     friend class ChatWidget;
 
     QPointF mapToContent(ChatLineContent* c, QPointF pos);
 
-    void addColumn(ChatLineContent* item, ColumnFormat fmt);
     void updateBBox();
     void visibilityChanged(bool visible);
 

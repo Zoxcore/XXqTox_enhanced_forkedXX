@@ -832,7 +832,7 @@ QList<History::HistMessage> History::getMessagesForChat(const ChatId& chatId, si
         constexpr auto messageOffset = 6;
         constexpr auto fileOffset = 7;
         constexpr auto senderOffset = 13;
-        constexpr auto systemOffset = 15;
+        constexpr auto systemOffset = 16;
 
         auto it = row.begin();
 
@@ -852,12 +852,20 @@ QList<History::HistMessage> History::getMessagesForChat(const ChatId& chatId, si
         case 'T': {
             it = std::next(row.begin(), messageOffset);
             assert(!it->isNull());
-            const auto messageContent = (*it++).toString();
+            auto messageContent = (*it++).toString();
             it = std::next(row.begin(), senderOffset);
             const auto senderKey = ToxPk{(*it++).toByteArray()};
             const auto senderName = QString::fromUtf8((*it++).toByteArray().replace('\0', ""));
-            messages += HistMessage(id, messageState, requiredExtensions, timestamp,
-                                    chatId.clone(), senderName, senderKey, messageContent);
+            const auto ngc_msgid2 = QString::fromUtf8((*it++).toByteArray().replace('\0', ""));
+            qDebug() << QString("getMessagesForChat:ngc_msgid:") << ngc_msgid2.left(5);
+            if (messageContent.size() == 0)
+            {
+                messageContent = "___";
+            }
+            HistMessage h = HistMessage(id, messageState, requiredExtensions, timestamp,
+                            chatId.clone(), senderName, senderKey, messageContent, ngc_msgid2);
+            qDebug() << QString("getMessagesForChat:ngcMsgid:") << h.ngcMsgid.left(5);
+            messages += h;
             break;
         }
         case 'F': {
@@ -907,7 +915,7 @@ QList<History::HistMessage> History::getMessagesForChat(const ChatId& chatId, si
             "SELECT history.id, history.message_type, history.timestamp, faux_offline_pending.id, "
             "    faux_offline_pending.required_extensions, broken_messages.id, text_messages.message, "
             "    file_restart_id, file_name, file_path, file_size, file_transfers.direction, "
-            "    file_state, authors.public_key as sender_key, aliases.display_name, "
+            "    file_state, authors.public_key as sender_key, aliases.display_name, text_messages.ngc_msgid, "
             "    system_messages.system_message_type, system_messages.arg1, system_messages.arg2, "
             "    system_messages.arg3, system_messages.arg4 "
             "FROM history "
@@ -950,18 +958,19 @@ QList<History::HistMessage> History::getUndeliveredMessagesForChat(const ChatId&
         auto messageContent = (*it++).toString();
         auto senderKey = ToxPk{(*it++).toByteArray()};
         auto displayName = QString::fromUtf8((*it++).toByteArray().replace('\0', ""));
+        auto ngc_msgid3 = QString::fromUtf8((*it++).toByteArray().replace('\0', ""));
 
         MessageState messageState = getMessageState(isPending, isBroken);
 
         ret += {id,          messageState, extensionSet,  timestamp, chatId.clone(),
-                displayName, senderKey,    messageContent};
+                displayName, senderKey,    messageContent, ngc_msgid3};
     };
 
     QString queryString =
         QStringLiteral(
             "SELECT history.id, history.timestamp, faux_offline_pending.id, "
             "    faux_offline_pending.required_extensions, broken_messages.id, text_messages.message, "
-            "    authors.public_key as sender_key, aliases.display_name "
+            "    authors.public_key as sender_key, aliases.display_name, text_messages.ngc_msgid "
             "FROM history "
             "JOIN text_messages ON history.id = text_messages.id "
             "JOIN aliases ON text_messages.sender_alias = aliases.id "
