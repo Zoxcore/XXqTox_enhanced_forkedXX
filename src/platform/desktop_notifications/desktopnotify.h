@@ -35,6 +35,7 @@ class DesktopNotify : public QObject
     Q_OBJECT
 public:
     explicit DesktopNotify(Settings& settings);
+    QString sanitize_text_for_notifications(const QString& input_text);
 
 public slots:
     void notifyMessage(const NotificationData& notificationData);
