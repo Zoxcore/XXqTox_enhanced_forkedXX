@@ -1217,9 +1217,23 @@ void Widget::addFriend(uint32_t friendId, const ToxPk& friendPk)
     chatListWidget->addFriendWidget(widget);
 
 
-    auto notifyReceivedCallback = [this, friendPk](const ToxPk& author, const Message& message) {
+    auto notifyReceivedCallback = [this, friendPk](const ToxPk& author, const Message& message, const int hasIdType) {
         std::ignore = author;
-        newFriendMessageAlert(friendPk, message.content);
+
+        auto strip_len = (TOX_MSGV3_MSGID_LENGTH * 2) + 1;
+        if ((hasIdType == static_cast<int>(Widget::MessageHasIdType::MSGV3_ID)) && (message.content.size() > strip_len))
+        {
+            // remove hex of msgV3_hash and "_" -> strip_len
+            QString message_text_only = message.content.mid(strip_len);
+            // qDebug() << "friendMessageDispatcher:notifyReceivedCallback:hasIdType=" << hasIdType << "message.content="
+            //        << message.content << "message.content.size=" << message.content.size()
+            //        << "message_text_only=" << message_text_only;
+            newFriendMessageAlert(friendPk, message_text_only);
+        }
+        else
+        {
+            newFriendMessageAlert(friendPk, message.content);
+        }
     };
 
     auto notifyReceivedConnection =
@@ -2276,13 +2290,27 @@ Group* Widget::createGroup(uint32_t groupnumber, const GroupId& groupId)
         std::make_shared<ChatHistory>(*newgroup, history, *core, settings,
                                       *messageDispatcher, *friendList, *groupList);
 
-    auto notifyReceivedCallback = [this, groupId](const ToxPk& author, const Message& message) {
+    auto notifyReceivedCallback = [this, groupId, groupnumber](const ToxPk& author, const Message& message) {
         auto isTargeted = std::any_of(message.metadata.begin(), message.metadata.end(),
                                       [](MessageMetadata metadata) {
                                           return metadata.type == MessageMetadataType::selfMention;
                                       });
-        newGroupMessageAlert(groupId, author, message.content,
+
+        auto strip_len = 8 + 1; // 8 -> 4 bytes as hex + 1 -> ':'
+        if ((groupnumber >= Settings::NGC_GROUPNUM_OFFSET) && (message.content.size() > strip_len))
+        {
+            QString message_text_only = message.content.mid(strip_len);
+            // qDebug() << "GroupMessageDispatcher:notifyReceivedCallback:groupnumber=" << groupnumber
+            //    << "message.content=" << message.content << "message_text_only=" << message_text_only
+            //    << "message.content.len=" << message.content.size();
+            newGroupMessageAlert(groupId, author, message_text_only,
                              isTargeted || settings.getGroupAlwaysNotify());
+        }
+        else
+        {
+            newGroupMessageAlert(groupId, author, message.content,
+                             isTargeted || settings.getGroupAlwaysNotify());
+        }
     };
 
     auto notifyReceivedConnection =
