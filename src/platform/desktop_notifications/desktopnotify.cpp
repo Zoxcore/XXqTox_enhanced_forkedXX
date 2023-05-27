@@ -48,7 +48,7 @@ QString DesktopNotify::sanitize_text_for_notifications(const QString& input_text
 {
     QString output_text = QString(input_text);
     output_text.replace(QRegularExpression("[^a-zA-Z0-9 _:]"), "_"); // allow only a A-Z and 0-9 and "_" and " " and ":" chars
-    qDebug() << "sanitize_text_for_notifications: input:" << input_text << "output:" << output_text;
+    // qDebug() << "sanitize_text_for_notifications: input:" << input_text << "output:" << output_text;
     return output_text;
 }
 
