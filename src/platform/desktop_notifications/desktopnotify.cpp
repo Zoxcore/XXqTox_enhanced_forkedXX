@@ -59,8 +59,8 @@ void DesktopNotify::notifyMessage(const NotificationData& notificationData)
     }
 
     auto icon = notificationData.pixmap.isNull() ? snoreIcon : Snore::Icon(notificationData.pixmap);
-    auto title_sanitized = sanitizeTextForNotifications(notificationData.title);
-    auto message_sanitizied = sanitizeTextForNotifications(notificationData.message);
+    auto title_sanitized = sanitizeTextForNotifications(notificationData.title).left(Settings::NOTIFICATION_MAX_STR_LEN);
+    auto message_sanitizied = sanitizeTextForNotifications(notificationData.message).left(Settings::NOTIFICATION_MAX_STR_LEN);
     auto newNotification = Snore::Notification{snoreApp, Snore::Alert(), title_sanitized, message_sanitizied, icon, 0};
     latestId = newNotification.id();
 

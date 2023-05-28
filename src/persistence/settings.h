@@ -157,6 +157,7 @@ public:
 
     static QStringList PUSHURL_WHITELIST;
     static const uint32_t NGC_GROUPNUM_OFFSET = 1000000000;
+    static const uint32_t NOTIFICATION_MAX_STR_LEN = 100;
 
 public:
     explicit Settings(IMessageBoxManager& messageBoxManager);
