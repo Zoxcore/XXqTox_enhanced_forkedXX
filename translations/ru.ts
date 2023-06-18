@@ -133,63 +133,63 @@ which may lead to problems with video calls.</source>
     </message>
     <message>
         <source>Screen Capture FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота кадров захвата экрана</translation>
     </message>
     <message>
         <source>Change framerate and video bitrate for screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Поменять частоту кадров и битрейт видео для захвата экрана.</translation>
     </message>
     <message>
         <source>HD (200 kbps)</source>
-        <translation type="unfinished"></translation>
+        <translation>HD (200 kbps)</translation>
     </message>
     <message>
         <source>HD (128 kbps)</source>
-        <translation type="unfinished"></translation>
+        <translation>HD (128 kbps)</translation>
     </message>
     <message>
         <source>30 FPS / 10000 kbit/s vbitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>30 FPS / 10000 kbit/s vbitrate</translation>
     </message>
     <message>
         <source>25 FPS / 10000 kbit/s vbitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>25 FPS / 10000 kbit/s vbitrate</translation>
     </message>
     <message>
         <source>enable Acoustic Echo Cancellation</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить подавление акустического эха (AEC)</translation>
     </message>
     <message>
         <source>AEC Audio Latency</source>
-        <translation type="unfinished"></translation>
+        <translation>Задержка аудио AEC</translation>
     </message>
     <message>
         <source>Set the Audio Latency for Acoustic Echo Cancellation in ms. The default value is 20 ms.</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить задержку аудио для подавления акустического эха (AEC) в миллисекундах. Стандартное значение — 20 мс.</translation>
     </message>
     <message>
         <source>10 FPS / dynamic vbitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>10 FPS / dynamic vbitrate</translation>
     </message>
     <message>
         <source>AEC Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим звука AEC</translation>
     </message>
     <message>
         <source>AEC Mode 0 to 4</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим AEC от 0 до 4</translation>
     </message>
     <message>
         <source>AEC NS Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим AEC NS</translation>
     </message>
     <message>
         <source>AEC NS Mode 0 to 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим AEC NS от 0 до 3</translation>
     </message>
     <message>
         <source>20 FPS / dynamic vbitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>20 FPS / dynamic vbitrate</translation>
     </message>
 </context>
 <context>
@@ -521,19 +521,19 @@ which may lead to problems with video calls.</source>
     </message>
     <message>
         <source>NGC Public Group ID, 64 hexadecimal characters</source>
-        <translation type="unfinished"></translation>
+        <translation>ID публичной группы NGC, 64 шестнадцатиричных символа</translation>
     </message>
     <message>
         <source>Type in the NGC Public Group ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите ID публичной группы NGC</translation>
     </message>
     <message>
         <source>NGC ID invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверный ID NGC</translation>
     </message>
     <message>
         <source>Couldn&apos;t join NGC Public Group, or NGC ID error</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось вступить в публичную группу NGC, либо произошла ошибка с ID NGC</translation>
     </message>
 </context>
 <context>
@@ -669,15 +669,15 @@ which may lead to problems with video calls.</source>
     </message>
     <message>
         <source>Network Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевые подключения</translation>
     </message>
     <message>
         <source>This is still in BETA. It will show the network connections that toxcore is currently using</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта функция всё ещё в бета-версии. Она показывает сетевые подключения, в данный момент используемые toxcore</translation>
     </message>
     <message>
         <source>Show Tox Network Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать сетевые подключения сети Tox</translation>
     </message>
 </context>
 <context>
@@ -1308,11 +1308,16 @@ the only allowed Push Servers are (no other servers will ever be contacted):
   &quot;https://gotify1.unifiedpush.org/&quot;
   &quot;https://ntfy.sh/&quot;
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Push уведомления помогают пользователям Tox, использующим мобильные устройства (с TRIfA и Antidote) сохранять заряд аккумулятора и интернет-трафик. Эта функция будет подключаться к стороннему HTTPS серверу с токеном Push для вашего друга. Никакая другая информация отправлена не будет! Но это раскроет серверу ваш IP адрес, а также время, когда вы отправили запрос своему другу. Вы можете предотвратить это, используя прокси сервер (например, Tor), чтобы скрыть ваш настоящий IP адрес. Если вы отключите эту функцию, пользователи, использующие мобильные устройства могут получать ваши сообщения намного позже, чем вы их отправили. Разрешённые Push сервера (никаких других подключений не будет):
+
+  &quot;https://tox.zoff.xyz/toxfcm/&quot;
+  &quot;https://gotify1.unifiedpush.org/&quot;
+  &quot;https://ntfy.sh/&quot;
+</translation>
     </message>
     <message>
         <source>enable Push Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить Push уведомления</translation>
     </message>
 </context>
 <context>
@@ -1462,7 +1467,7 @@ the only allowed Push Servers are (no other servers will ever be contacted):
     </message>
     <message>
         <source>Change your name in this group</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить ваше имя в этой группе</translation>
     </message>
 </context>
 <context>
