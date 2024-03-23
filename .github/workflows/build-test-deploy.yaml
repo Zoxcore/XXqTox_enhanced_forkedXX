@@ -29,7 +29,7 @@ jobs:
     permissions:
         contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Move nightly tag to head for nightly release
         run: git tag -f nightly && git push origin nightly -f
   build-flatpak-docker:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ true }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -46,7 +46,7 @@ jobs:
     name: Build ubuntu LTS docker image
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -55,7 +55,7 @@ jobs:
     name: Build ubuntu for AppImage docker image
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -64,7 +64,7 @@ jobs:
     name: Build ubuntu for ASAN AppImage docker image
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -73,7 +73,7 @@ jobs:
     name: Build debian docker image
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ false }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -92,7 +92,7 @@ jobs:
     name: Build windows docker image
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -101,7 +101,7 @@ jobs:
     name: Build 32 bit windows docker image
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-docker-image
         name: "Build docker image"
         with:
@@ -115,7 +115,7 @@ jobs:
         features: [full, minimal]
         build_type: [Debug, Release]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -132,7 +132,7 @@ jobs:
         features: [full, minimal]
         build_type: [Debug, Release]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -143,7 +143,7 @@ jobs:
     name: Check for translatable strings
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install deps
         run: sudo apt-get update && sudo apt-get install qttools5-dev
       - name: Test for modified translatable strings
@@ -162,7 +162,7 @@ jobs:
         features: [full, minimal]
         build_type: [Debug, Release]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -189,7 +189,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -259,7 +259,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -329,7 +329,7 @@ jobs:
     permissions:
         contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -397,7 +397,7 @@ jobs:
       matrix:
         build_type: [Debug, Release]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -493,7 +493,7 @@ jobs:
       matrix:
         build_type: [Debug, Release]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/load-docker-image
         name: Load docker image
         with:
@@ -569,7 +569,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Homebrew dependencies to build dependencies
         run: brew update || echo "some errors" ; echo "==111111111111==" ; brew bundle --file ./osx/Brewfile-DepBuildDeps || echo "some errors" ; echo "==222222222222==" ; brew upgrade || echo "some errors"
       - name: Build dependencies
