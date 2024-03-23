@@ -104,7 +104,7 @@ jobs:
       - name: Test for modified translatable strings
         run: ./tools/update-translation-files.sh ALL && git diff > apply_translations.patch
       - name: Upload apply_translations.patch
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: apply_translations.patch
           path: apply_translations.patch
@@ -152,7 +152,7 @@ jobs:
       - name: Run build
         run: docker-compose run --rm ubuntu_for_appimage ./appimage/build.sh --src-dir /qtox
       - name: Upload appimage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: qTox-${{ github.sha }}.x86_64.AppImage
           path: qTox-*.x86_64.AppImage
@@ -222,7 +222,7 @@ jobs:
       - name: Run build
         run: docker-compose run --rm ubuntu_for_asan_appimage ./appimage/asan_build.sh --src-dir /qtox
       - name: Upload asan appimage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: qTox-asan-${{ github.sha }}.x86_64.AppImage
           path: qTox-*.x86_64.AppImage
@@ -292,7 +292,7 @@ jobs:
       - name: Run build
         run: docker-compose run --rm flatpak ./flatpak/build.sh
       - name: Upload flatpak
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: qTox-${{ github.sha }}.x86_64.flatpak
           path: qtox.flatpak
@@ -365,13 +365,13 @@ jobs:
 
       - name: Upload installer
         if: matrix.build_type == 'release'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: setup-qtox-x86_64-${{ matrix.build_type }}.exe
           path: package-prefix/setup-qtox.exe
 
       - name: Upload zip
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: qtox-x86_64-${{ matrix.build_type }}.zip
           path: install-prefix/qtox-x86_64-${{ matrix.build_type }}.zip
@@ -465,7 +465,7 @@ jobs:
       - name: Build qTox
         run: ./.ci-scripts/build-qtox-macos.sh dist
       - name: Upload dmg
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: qTox-${{ github.sha }}.dmg
           path: qTox.dmg

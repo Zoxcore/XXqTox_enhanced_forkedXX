@@ -100,7 +100,7 @@ jobs:
            cp -v /Users/runner/screenshot-macos.png /Users/runner/work/qTox_enhanced/qTox_enhanced/screenshot-macos.png
 
     - name: upload-screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: screenshot-macos
         path: |
@@ -166,7 +166,7 @@ jobs:
                cp -av /tmp/screenshot-linux.png screenshot-linux.png
 
         - name: upload-screenshots
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4
           with:
             name: screenshot-linux
             path: /tmp/screenshot-linux.png
@@ -250,7 +250,7 @@ jobs:
           Write-Output D:\a\qTox_enhanced\qTox_enhanced\screenshot-windows.png
 
       - name: upload-screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: screenshot-windows
           path: |
